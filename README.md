@@ -105,6 +105,34 @@ pnpm build
 pnpm build --filter=web
 ```
 
+### 배포
+
+이 프로젝트는 GitHub Actions를 사용하여 자동 배포를 구성하고 있습니다. `main` 브랜치에 푸시하면 자동으로 배포 파이프라인이 실행됩니다.
+
+#### GitHub Secrets 설정
+
+GitHub 저장소의 Settings > Secrets and variables > Actions에서 다음 시크릿을 설정해야 합니다:
+
+```
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (선택사항)
+STRIPE_SECRET_KEY (선택사항)
+VERCEL_TOKEN
+EXPO_TOKEN (선택사항)
+```
+
+#### 수동 배포
+
+```bash
+# Vercel 배포
+vercel deploy --prod
+
+# Expo 배포
+cd apps/expo
+eas build --platform all
+```
+
 ## 프로젝트 구조
 
 ```

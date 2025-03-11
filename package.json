@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "clean": "pnpm -r exec rm -rf node_modules && rm -rf node_modules",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "deploy:vercel": "vercel deploy --prod",
+    "deploy:expo": "cd apps/expo && eas build --platform all"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
