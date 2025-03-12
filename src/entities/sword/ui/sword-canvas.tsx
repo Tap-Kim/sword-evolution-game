@@ -1,9 +1,8 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
 import { Sword } from "@/shared/api/types";
 import { SwordModel } from "../model/sword-model";
+import dynamic from "next/dynamic";
 
 /**
  * 검 캔버스 컴포넌트 - 3D 검 모델을 렌더링
@@ -18,6 +17,17 @@ interface SwordCanvasProps {
   isEvolving?: boolean;
   isPartSelectionActive?: boolean; // 파츠 교체 영역 활성화 여부
 }
+
+// 클라이언트 사이드에서만 렌더링되도록 동적 임포트 사용
+const DynamicCanvas = dynamic(
+  () => import("@react-three/fiber").then((mod) => mod.Canvas),
+  { ssr: false }
+);
+
+const DynamicEnvironment = dynamic(
+  () => import("@react-three/drei").then((mod) => mod.Environment),
+  { ssr: false }
+);
 
 /**
  * 검 캔버스 컴포넌트
@@ -46,7 +56,7 @@ export function SwordCanvas({
         transition: "height 0.3s ease-in-out", // 높이 변경 시 부드러운 전환 효과
       }}
     >
-      <Canvas
+      <DynamicCanvas
         shadows={showShadow}
         camera={{ position: [0, 0, 4], fov: 50 }}
         gl={{ antialias: true }}
@@ -59,8 +69,8 @@ export function SwordCanvas({
           isEvolving={isEvolving}
         />
 
-        {showEnvironment && <Environment preset="sunset" />}
-      </Canvas>
+        {showEnvironment && <DynamicEnvironment preset="sunset" />}
+      </DynamicCanvas>
     </div>
   );
 }
